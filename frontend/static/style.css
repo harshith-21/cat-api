@@ -2,43 +2,44 @@ body {
     background-color: #121212;
     color: #ffffff;
     font-family: Arial, sans-serif;
-    height: 100vh;
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0;
-}
-
-.container {
-    text-align: center;
-    margin-top: 50px;
-}
-
-button {
-    padding: 15px 25px;
-    background-color: #ff5722;
-    color: white;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-button:hover {
-    background-color: #ff784e;
-}
-
-#response {
-    margin-top: 20px;
-    color: #00ff00;
+    height: 100vh;
 }
 
 .center-box {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    width: 300px;
-    background-color: #333;
-    border-radius: 10px;
     text-align: center;
+    background-color: #333;
+    padding: 20px;
+    border-radius: 10px;
+    width: 300px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #777;
+}
+
+.api-list {
+    margin-top: 30px;
+    text-align: left;
+}
+
+.api-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.api-list li {
+    margin-bottom: 10px;
 }
