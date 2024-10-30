@@ -67,61 +67,65 @@ func createApiPage(w http.ResponseWriter, r *http.Request) {
 
 // Create a new API collection
 func createApiCollection(w http.ResponseWriter, r *http.Request) {
-    r.ParseForm()
-    collectionName := r.FormValue("collectionName")
+	if r.Method == http.MethodPost {
+		r.ParseForm()
+		collectionName := r.FormValue("collectionName")
 
-    // Validate collection name
-    if collectionName == "" {
-        http.Error(w, "Collection name cannot be empty", http.StatusBadRequest)
-        return
-    }
+		// Validate collection name
+		if collectionName == "" {
+			http.Error(w, "Collection name cannot be empty", http.StatusBadRequest)
+			return
+		}
 
-    // Get the admin token
-    adminToken, err := pocketbase.GetAdminToken(adminEmail, adminPassword)
-    if err != nil {
-        http.Error(w, "Unable to authenticate", http.StatusInternalServerError)
-        return
-    }
+		// Get the admin token
+		adminToken, err := pocketbase.GetAdminToken(adminEmail, adminPassword)
+		if err != nil {
+			http.Error(w, "Unable to authenticate", http.StatusInternalServerError)
+			return
+		}
 
-    // Define the new collection schema
-    newCollection := pocketbase.NewCollection{
-		Name: collectionName,
-		Type: "base", 
-		Schema: []pocketbase.SchemaField{
-			{
-				Name: "field1",
-				Type: "text",
-			},
-			{
-				Name: "jsonField",
-				Type: "json",
-				Options: map[string]interface{}{
-					"minSize": 0,    // Optional: set minimum value
-					"maxSize": 1000, // Optional: set maximum value
+		// Define the new collection schema
+		newCollection := pocketbase.NewCollection{
+			Name: collectionName,
+			Type: "base", 
+			Schema: []pocketbase.SchemaField{
+				{
+					Name: "field1",
+					Type: "text",
+				},
+				{
+					Name: "jsonField",
+					Type: "json",
+					Options: map[string]interface{}{
+						"minSize": 0,    // Optional: set minimum value
+						"maxSize": 1000, // Optional: set maximum value
+					},
 				},
 			},
-		},
-    }
+		}
 
-    // Call the function to create the collection
-    err = pocketbase.CreateCollection(newCollection, adminToken)
-    if err != nil {
-        fmt.Printf("Error creating collection: %v\n", err)
-        http.Error(w, "Error creating collection", http.StatusInternalServerError)
-        return
-    }
+		// Call the function to create the collection
+		err = pocketbase.CreateCollection(newCollection, adminToken)
+		if err != nil {
+			fmt.Printf("Error creating collection: %v\n", err)
+			http.Error(w, "Error creating collection", http.StatusInternalServerError)
+			return
+		}
 
-    fmt.Printf("Collection %s created successfully!", collectionName)
+		fmt.Printf("Collection %s created successfully!", collectionName)
 
-    // Redirect to home after successful creation
-    http.Redirect(w, r, "/", http.StatusSeeOther)
+		// Redirect to home after successful creation
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	} else {
+		// If the request method is not POST, show the Create API page
+		http.ServeFile(w, r, "frontend/templates/create_api.html")
+	}
 }
 
 // Main function
 func main() {
 	http.HandleFunc("/", homePage)
-	http.HandleFunc("/createapi", createApiPage)
-	http.HandleFunc("/createapi/submit", createApiCollection)
+	http.HandleFunc("/createapi", createApiCollection)
 
 	// TODO : get env variables for pocketbase url, admin user, admin password. use default if not provided
 

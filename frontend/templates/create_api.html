@@ -6,11 +6,12 @@
 </head>
 <body>
     <h2>Create New API</h2>
-    <form action="/createapi/submit" method="post">
+    <form action="/createapi" method="post">
         <label for="collectionName">Collection Name:</label>
         <input type="text" name="collectionName" required>
         <button type="submit">Create Collection</button>
     </form>
-    <button hx-get="/" hx-target="#api-form" hx-swap="innerHTML">Cancel</button>
+
+    <div id="message"></div>
 </body>
 </html>

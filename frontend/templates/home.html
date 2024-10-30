@@ -7,7 +7,7 @@
 </head>
 <body>
     <h1>API Dashboard</h1>
-    <button hx-get="/createapi" hx-target="#api-form" hx-swap="innerHTML">Create API</button>
+    <a href="/createapi"><button>Create API</button></a>
 
     <h2>Existing APIs</h2>
     <ul id="api-list">
@@ -16,6 +16,5 @@
         {{end}}
     </ul>
 
-    <div id="api-form"></div>
 </body>
 </html>
